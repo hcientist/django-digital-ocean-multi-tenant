@@ -1,0 +1,18 @@
+[Unit]
+Description=second gunicorn daemon
+Requires=second-gunicorn.socket
+After=network.target
+
+[Service]
+User=hci
+Group=www-data
+WorkingDirectory=/home/hci/second
+ExecStart=/home/hci/venvs/starter-env/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/second-gunicorn.sock \
+          starter.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+~                              
